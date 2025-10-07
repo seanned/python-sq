@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: SQ Analysis
-        uses: seanned/python-actions@Initial
+        uses: seanned/python-actions@v1
         with:
          python-version: '3.11'
          requirements-file: 'requirements.txt' 
