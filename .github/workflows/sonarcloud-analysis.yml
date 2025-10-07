@@ -8,12 +8,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  sonar-analysis:
-    uses: seanned/python-actions@Initial
-    with:
-      python-version: '3.11'
-      requirements-file: 'requirements.txt'
-      sq-project: 'test-org-1qaz2wsx_python-test'
-      sq-organization: 'test-org-1qaz2wsx'
-    secrets:
-      sq-token: ${{ secrets.SONAR_TOKEN }}
+  run_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SQ Analysis
+        uses: seanned/python-actions@Initial
+        with:
+         python-version: '3.11'
+         requirements-file: 'requirements.txt' 
+         sq-project: 'test-org-1qaz2wsx_python-test'
+         sq-organization: 'test-org-1qaz2wsx'
+         sq-token: ${{ secrets.SONAR_TOKEN }}
