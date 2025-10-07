@@ -9,7 +9,7 @@ on:
 
 jobs:
   sonar-analysis:
-    uses: seanned/python-actions/.github/workflows/sonar-python.yml@main
+    uses: seanned/python-actions/.github/workflows/run-sq-analysis.yml@main
     with:
       python-version: '3.11'
       requirements-file: 'requirements.txt'
