@@ -1,0 +1,18 @@
+name: Reuse SonarQube Python Workflow
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['master']
+  workflow_dispatch:
+
+jobs:
+  sonar-analysis:
+    uses: seanned/.github/workflows/sonar-python.yml@main
+    with:
+      python-version: '3.11'
+      requirements-file: 'requirements.txt'
+      sq-project: 'test-org-1qaz2wsx_python-test'
+      sq-organization: 'test-org-1qaz2wsx'
+      sq-token: ${{ secrets.SONAR_TOKEN }}
