@@ -37,5 +37,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          sonar.projectKey: "test-org-1qaz2wsx_python-test"
-          sonar.organization: "test-org-1qaz2wsx"
+          args: >
+            -Dsonar.projectKey=${{ inputs.sq-project }} \
+            -Dsonar.organization=${{ inputs.sq-organization }} \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ inputs.sq-token }} \
+            -Dsonar.python.coverage.reportPaths=coverage.xml
