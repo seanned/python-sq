@@ -3,8 +3,6 @@ name: Reuse SonarQube Python Workflow
 on:
   push:
     branches: ['**']
-  pull_request:
-    branches: ['master']
   workflow_dispatch:
 
 jobs:
