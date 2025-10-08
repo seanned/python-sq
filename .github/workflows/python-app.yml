@@ -38,9 +38,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=${{ inputs.sq-project }} \
-            -Dsonar.organization=${{ inputs.sq-organization }} \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ inputs.sq-token }} \
+            -Dsonar.projectKey=test-org-1qaz2wsx_python-test
+            -Dsonar.organization=test-org-1qaz2wsx
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             -Dsonar.python.coverage.reportPaths=coverage.xml
