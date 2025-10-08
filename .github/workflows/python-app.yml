@@ -33,6 +33,14 @@ jobs:
         shell: bash
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=test-org-1qaz2wsx_python-test \
+            -Dsonar.organization=test-org-1qaz2wsx \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        shell: bash
