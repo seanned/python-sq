@@ -47,6 +47,7 @@ jobs:
       - name: SQ Analysis
         uses: seanned/python-actions@main
         with:
+          clean: false
           coverage-type: "python"
           coverage-report-path: "coverage-reports/coverage.xml"
           sq-project: 'test-org-1qaz2wsx_python-test'
