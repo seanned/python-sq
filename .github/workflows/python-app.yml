@@ -35,6 +35,7 @@ jobs:
           path: coverage.xml
 
   sq-analysis:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Download coverage report
