@@ -42,29 +42,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-reports
-          path: coverage-reports/
-
-      - name: Debug -List workspace
-        run: |
-          echo "PWD: $(pwd)"
-          ls -R .
-
-      - name: Debug - Show coverage file
-        run: |
-          if [ -f coverage-reports/coverage.xml ]; then
-            echo "Coverage file exists!"
-            head -n 20 coverage-reports/coverage.xml
-          else
-            echo "Coverage file NOT found!"
-            exit 1
-          fi
+          path: /tmp/
 
       - name: SQ Analysis
         uses: seanned/python-actions@main
         with:
-          clean: false
           coverage-type: "python"
-          coverage-report-path: "coverage-reports/coverage.xml"
+          coverage-report-path: "/tmp/coverage.xml"
           sq-project: 'test-org-1qaz2wsx_python-test'
           sq-organization: 'test-org-1qaz2wsx'
           sq-token: ${{ secrets.SONAR_TOKEN }}
