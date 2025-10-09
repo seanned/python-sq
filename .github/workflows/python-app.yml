@@ -31,7 +31,7 @@ jobs:
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-reports
           path: coverage.xml
 
   sq-analysis:
@@ -41,14 +41,14 @@ jobs:
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
-          name: coverage-report
-          path: coverage/
+          name: coverage-reports
+          path: coverage-reports/
 
       - name: SQ Analysis
         uses: seanned/python-actions@main
         with:
           coverage-type: "python"
-          coverage-report-path: "coverage/coverage.xml"
+          coverage-report-path: "coverage-reports/coverage.xml"
           sq-project: 'test-org-1qaz2wsx_python-test'
           sq-organization: 'test-org-1qaz2wsx'
           sq-token: ${{ secrets.SONAR_TOKEN }}
