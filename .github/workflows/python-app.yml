@@ -51,9 +51,9 @@ jobs:
 
       - name: Debug - Show coverage file
         run: |
-          if [ -f tmp/coverage.xml ]; then
+          if [ -f /tmp/coverage.xml ]; then
             echo "Coverage file exists!"
-            head -n 20 tmp/coverage.xml
+            head -n 20 /tmp/coverage.xml
           else
             echo "Coverage file NOT found!"
             exit 1
