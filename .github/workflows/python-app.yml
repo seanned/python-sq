@@ -53,7 +53,7 @@ jobs:
         run: |
           if [ -f coverage-reports/coverage.xml ]; then
             echo "Coverage file exists!"
-            head -n 20 coverage/coverage.xml
+            head -n 20 coverage-reports/coverage.xml
           else
             echo "Coverage file NOT found!"
             exit 1
