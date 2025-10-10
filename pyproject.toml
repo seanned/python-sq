@@ -5,6 +5,13 @@ description = "A simple Python test project"
 requires-python = ">=3.13"
 dependencies = []
 
+[dependency-groups]
+dev = [
+    "coverage>=7.9.2",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.3.0"
+]
+
 [tool.pytest.ini_options]
 addopts = "--cov=main --cov-report=term --cov-report=xml"
 testpaths = [
