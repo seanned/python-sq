@@ -1,38 +1,61 @@
-name: SonarQube Python Analysis
+name: Python run tests and SQ
 
 on:
-  push:
-    branches: ['**']
-  pull_request:
-    branches: ['main']
   workflow_dispatch:
 
 jobs:
-  run_analysis:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - 3.13
+    name: Test on Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.13
-      - name: Install dependencies
-        shell: bash
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install coverage pytest
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
 
-      - name: Run tests and generate coverage
-        run: |
-          coverage run -m pytest
-          coverage xml -o "coverage.xml"
-        shell: bash
+      - name: Generate lock file
+        run: uv lock
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Get Packages
+        run: uv sync
+
+      - name: Run tests
+        run: uv run pytest --cov --cov-fail-under=40 --cov-report=xml
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage.xml
+
+  sq-analysis:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+          path: /tmp/
+
+      - name: SQ Analysis
+        uses: seanned/python-actions@main
+        with:
+          coverage-type: "python"
+          coverage-report-path: "/tmp/coverage.xml"
+          sources: "."
+          sq-project: 'test-org-1qaz2wsx_python-test'
+          sq-organization: 'test-org-1qaz2wsx'
+          sq-token: ${{ secrets.SONAR_TOKEN }}

@@ -1,21 +1,29 @@
 name: Reuse SonarQube Python Workflow
 
 on:
-  push:
-    branches: ['**']
-  pull_request:
-    branches: ['master']
+  workflow_run:
+    workflows: ["Python run tests"]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
   run_analysis:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          
       - name: SQ Analysis
         uses: seanned/python-actions@main
         with:
-         python-version: '3.13'
-         requirements-file: 'requirements.txt' 
-         sq-project: 'test-org-1qaz2wsx_python-test'
-         sq-organization: 'test-org-1qaz2wsx'
-         sq-token: ${{ secrets.SONAR_TOKEN }}
+          coverage-type: python
+          coverage-path: coverage/coverage.xml
+          sq-project: 'test-org-1qaz2wsx_python-test'
+          sq-organization: 'test-org-1qaz2wsx'
+          sq-token: ${{ secrets.SONAR_TOKEN }}
